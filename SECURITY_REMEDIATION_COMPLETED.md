@@ -3,7 +3,7 @@
 ## ⚠️ **Issue Identified**
 GitHub Secret Scanning detected exposed MongoDB Atlas credentials in the repository history:
 - **Secret Type**: `mongodb_atlas_db_uri_with_credentials`
-- **Exposed Credential**: `mongodb+srv://mohamed:uzNCGEowIV2aKvML@jobportal.mbfsyes.mongodb.net/auth`
+- **Exposed Credential**: `mongodb+srv://[REDACTED]@[REDACTED].mongodb.net/auth`
 - **Location**: `AUTHENTICATION_GUIDE.md` in commit `ad87aa9`
 - **Detection Time**: 50 minutes ago
 
@@ -51,8 +51,8 @@ GitHub Secret Scanning detected exposed MongoDB Atlas credentials in the reposit
 ### Git History Verification:
 ```bash
 # Verified no traces of credentials remain
-git log --all -S "uzNCGEowIV2aKvML" --oneline  # No results
-git log --all --grep="uzNCGEowIV2aKvML" --oneline  # No results
+git log --all -S "[REDACTED_CREDENTIAL]" --oneline  # No results
+git log --all --grep="[REDACTED_CREDENTIAL]" --oneline  # No results
 
 # Confirmed history rewrite
 git log --oneline -5
@@ -65,7 +65,7 @@ git log --oneline -5
 ### File Content Verification:
 ```bash
 # Confirmed no real credentials in any files
-grep -r "uzNCGEowIV2aKvML" . --exclude-dir=node_modules --exclude-dir=.git
+grep -r "[REDACTED_CREDENTIAL]" . --exclude-dir=node_modules --exclude-dir=.git
 # No results found
 ```
 
