@@ -1,10 +1,10 @@
 'use client';
 
-import { useSession } from 'next-auth/react';
+import { useUser } from '@clerk/nextjs';
 import ProtectedRoute from '@/components/auth/ProtectedRoute';
 
 export default function EmployerDashboard() {
-  const { data: session } = useSession();
+  const { user } = useUser();
 
   return (
     <ProtectedRoute requiredRole="employer">
@@ -17,7 +17,7 @@ export default function EmployerDashboard() {
                   Welcome to your Employer Dashboard
                 </h1>
                 <p className="text-lg text-gray-600 mb-8">
-                  Hello, {session?.user.name}! Manage your job postings and find the best candidates.
+                  Hello, {user?.firstName || user?.emailAddresses[0]?.emailAddress}! Manage your job postings and find the best candidates.
                 </p>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">

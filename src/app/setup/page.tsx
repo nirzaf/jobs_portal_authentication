@@ -3,8 +3,9 @@
 import { useUser } from '@clerk/nextjs';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
+import RoleSelector from '@/components/auth/RoleSelector';
 
-export default function Dashboard() {
+export default function SetupPage() {
   const { user, isLoaded } = useUser();
   const router = useRouter();
 
@@ -16,12 +17,13 @@ export default function Dashboard() {
       return;
     }
 
-    // Redirect to role-specific dashboard
-    const userRole = user.publicMetadata?.role as string || 'job_seeker';
-    if (userRole === 'employer') {
-      router.push('/dashboard/employer');
-    } else {
-      router.push('/dashboard/job-seeker');
+    // If user already has a role, redirect to dashboard
+    if (user.publicMetadata?.role) {
+      const userRole = user.publicMetadata.role as string;
+      const dashboardUrl = userRole === 'employer' 
+        ? '/dashboard/employer' 
+        : '/dashboard/job-seeker';
+      router.push(dashboardUrl);
     }
   }, [user, isLoaded, router]);
 
@@ -33,5 +35,9 @@ export default function Dashboard() {
     );
   }
 
-  return null;
+  if (!user) {
+    return null; // Will redirect
+  }
+
+  return <RoleSelector />;
 }

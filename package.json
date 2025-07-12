@@ -11,12 +11,14 @@
   },
   "dependencies": {
     "@auth/mongodb-adapter": "^3.10.0",
+    "@clerk/nextjs": "^6.24.0",
     "bcryptjs": "^3.0.2",
     "mongodb": "^6.17.0",
     "next": "15.3.5",
     "next-auth": "^4.24.11",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "svix": "^1.69.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

@@ -1,18 +1,14 @@
 'use client';
 
-import { useSession, signOut } from 'next-auth/react';
+import { useUser, SignInButton, SignUpButton, UserButton } from '@clerk/nextjs';
 import Link from 'next/link';
 import { useState } from 'react';
 import { useIsClient } from '@/hooks/useIsClient';
 
 export default function Navigation() {
-  const { data: session, status } = useSession();
+  const { user, isLoaded } = useUser();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const isClient = useIsClient();
-
-  const handleSignOut = () => {
-    signOut({ callbackUrl: '/' });
-  };
 
   return (
     <nav className="bg-white shadow-lg border-b">
@@ -33,9 +29,9 @@ export default function Navigation() {
               Browse Jobs
             </Link>
 
-            {!isClient || status === 'loading' ? (
+            {!isClient || !isLoaded ? (
               <div className="animate-pulse bg-gray-200 h-8 w-20 rounded"></div>
-            ) : session ? (
+            ) : user ? (
               <div className="flex items-center space-x-4">
                 <Link
                   href="/dashboard"
@@ -45,33 +41,32 @@ export default function Navigation() {
                 </Link>
                 <div className="flex items-center space-x-2">
                   <span className="text-sm text-gray-600">
-                    Welcome, {session.user.name}
+                    Welcome, {user.firstName || user.emailAddresses[0]?.emailAddress}
                   </span>
                   <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded-full">
-                    {session.user.role === 'job_seeker' ? 'Job Seeker' : 'Employer'}
+                    {user.publicMetadata?.role === 'employer' ? 'Employer' : 'Job Seeker'}
                   </span>
                 </div>
-                <button
-                  onClick={handleSignOut}
-                  className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md text-sm font-medium"
-                >
-                  Sign Out
-                </button>
+                <UserButton
+                  appearance={{
+                    elements: {
+                      avatarBox: "w-8 h-8"
+                    }
+                  }}
+                />
               </div>
             ) : (
               <div className="flex items-center space-x-2">
-                <Link
-                  href="/auth/signin"
-                  className="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium"
-                >
-                  Sign In
-                </Link>
-                <Link
-                  href="/auth/signup"
-                  className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium"
-                >
-                  Sign Up
-                </Link>
+                <SignInButton mode="modal">
+                  <button className="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">
+                    Sign In
+                  </button>
+                </SignInButton>
+                <SignUpButton mode="modal">
+                  <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium">
+                    Sign Up
+                  </button>
+                </SignUpButton>
               </div>
             )}
           </div>
@@ -104,9 +99,9 @@ export default function Navigation() {
               >
                 Browse Jobs
               </Link>
-              {!isClient || status === 'loading' ? (
+              {!isClient || !isLoaded ? (
                 <div className="animate-pulse bg-gray-200 h-8 w-20 rounded mx-3 my-2"></div>
-              ) : session ? (
+              ) : user ? (
                 <>
                   <Link
                     href="/dashboard"
@@ -115,32 +110,35 @@ export default function Navigation() {
                     Dashboard
                   </Link>
                   <div className="px-3 py-2">
-                    <p className="text-sm text-gray-600">Welcome, {session.user.name}</p>
+                    <p className="text-sm text-gray-600">
+                      Welcome, {user.firstName || user.emailAddresses[0]?.emailAddress}
+                    </p>
                     <p className="text-xs text-blue-600">
-                      {session.user.role === 'job_seeker' ? 'Job Seeker' : 'Employer'}
+                      {user.publicMetadata?.role === 'employer' ? 'Employer' : 'Job Seeker'}
                     </p>
                   </div>
-                  <button
-                    onClick={handleSignOut}
-                    className="text-red-600 hover:text-red-900 block px-3 py-2 rounded-md text-base font-medium w-full text-left"
-                  >
-                    Sign Out
-                  </button>
+                  <div className="px-3 py-2">
+                    <UserButton
+                      appearance={{
+                        elements: {
+                          avatarBox: "w-8 h-8"
+                        }
+                      }}
+                    />
+                  </div>
                 </>
               ) : (
                 <>
-                  <Link
-                    href="/auth/signin"
-                    className="text-gray-600 hover:text-gray-900 block px-3 py-2 rounded-md text-base font-medium"
-                  >
-                    Sign In
-                  </Link>
-                  <Link
-                    href="/auth/signup"
-                    className="bg-blue-600 hover:bg-blue-700 text-white block px-3 py-2 rounded-md text-base font-medium"
-                  >
-                    Sign Up
-                  </Link>
+                  <SignInButton mode="modal">
+                    <button className="text-gray-600 hover:text-gray-900 block px-3 py-2 rounded-md text-base font-medium w-full text-left">
+                      Sign In
+                    </button>
+                  </SignInButton>
+                  <SignUpButton mode="modal">
+                    <button className="bg-blue-600 hover:bg-blue-700 text-white block px-3 py-2 rounded-md text-base font-medium">
+                      Sign Up
+                    </button>
+                  </SignUpButton>
                 </>
               )}
             </div>

@@ -1,6 +1,6 @@
 'use client';
 
-import { useSession } from 'next-auth/react';
+import { useUser } from '@clerk/nextjs';
 import { useRouter } from 'next/navigation';
 import { useEffect, ReactNode } from 'react';
 import { useIsClient } from '@/hooks/useIsClient';
@@ -16,29 +16,31 @@ export default function ProtectedRoute({
   requiredRole,
   redirectTo = '/auth/signin'
 }: ProtectedRouteProps) {
-  const { data: session, status } = useSession();
+  const { user, isLoaded } = useUser();
   const router = useRouter();
   const isClient = useIsClient();
 
   useEffect(() => {
-    if (!isClient || status === 'loading') return; // Still loading or not on client
+    if (!isClient || !isLoaded) return; // Still loading or not on client
 
-    if (!session) {
+    if (!user) {
       router.push(redirectTo);
       return;
     }
 
-    if (requiredRole && session.user.role !== requiredRole) {
+    const userRole = user.publicMetadata?.role as string || 'job_seeker';
+
+    if (requiredRole && userRole !== requiredRole) {
       // Redirect to appropriate dashboard based on user role
-      const dashboardUrl = session.user.role === 'employer'
+      const dashboardUrl = userRole === 'employer'
         ? '/dashboard/employer'
         : '/dashboard/job-seeker';
       router.push(dashboardUrl);
       return;
     }
-  }, [isClient, session, status, router, requiredRole, redirectTo]);
+  }, [isClient, user, isLoaded, router, requiredRole, redirectTo]);
 
-  if (!isClient || status === 'loading') {
+  if (!isClient || !isLoaded) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-600"></div>
@@ -46,11 +48,13 @@ export default function ProtectedRoute({
     );
   }
 
-  if (!session) {
+  if (!user) {
     return null; // Will redirect
   }
 
-  if (requiredRole && session.user.role !== requiredRole) {
+  const userRole = user.publicMetadata?.role as string || 'job_seeker';
+
+  if (requiredRole && userRole !== requiredRole) {
     return null; // Will redirect
   }
 

@@ -1,11 +1,11 @@
 'use client';
 
-import { useSession } from 'next-auth/react';
+import { useUser } from '@clerk/nextjs';
 import ProtectedRoute from '@/components/auth/ProtectedRoute';
 import Link from 'next/link';
 
 export default function JobSeekerDashboard() {
-  const { data: session } = useSession();
+  const { user } = useUser();
 
   return (
     <ProtectedRoute requiredRole="job_seeker">
@@ -18,7 +18,7 @@ export default function JobSeekerDashboard() {
                   Welcome to your Job Seeker Dashboard
                 </h1>
                 <p className="text-lg text-gray-600 mb-8">
-                  Hello, {session?.user.name}! Find your dream job and track your applications.
+                  Hello, {user?.firstName || user?.emailAddresses[0]?.emailAddress}! Find your dream job and track your applications.
                 </p>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
