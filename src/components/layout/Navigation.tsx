@@ -4,11 +4,15 @@ import { useUser, SignInButton, SignUpButton, UserButton } from '@clerk/nextjs';
 import Link from 'next/link';
 import { useState } from 'react';
 import { useIsClient } from '@/hooks/useIsClient';
+import ClientOnly from '@/components/common/ClientOnly';
 
 export default function Navigation() {
   const { user, isLoaded } = useUser();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const isClient = useIsClient();
+
+  // Show loading state during SSR and initial client load
+  const showLoadingState = !isClient || !isLoaded;
 
   return (
     <nav className="bg-white shadow-lg border-b">
@@ -29,7 +33,7 @@ export default function Navigation() {
               Browse Jobs
             </Link>
 
-            {!isClient || !isLoaded ? (
+            {showLoadingState ? (
               <div className="animate-pulse bg-gray-200 h-8 w-20 rounded"></div>
             ) : user ? (
               <div className="flex items-center space-x-4">
@@ -47,26 +51,30 @@ export default function Navigation() {
                     {user.publicMetadata?.role === 'employer' ? 'Employer' : 'Job Seeker'}
                   </span>
                 </div>
-                <UserButton
-                  appearance={{
-                    elements: {
-                      avatarBox: "w-8 h-8"
-                    }
-                  }}
-                />
+                <ClientOnly suppressHydrationWarning>
+                  <UserButton
+                    appearance={{
+                      elements: {
+                        avatarBox: "w-8 h-8"
+                      }
+                    }}
+                  />
+                </ClientOnly>
               </div>
             ) : (
               <div className="flex items-center space-x-2">
-                <SignInButton mode="modal">
-                  <button className="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">
-                    Sign In
-                  </button>
-                </SignInButton>
-                <SignUpButton mode="modal">
-                  <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium">
-                    Sign Up
-                  </button>
-                </SignUpButton>
+                <ClientOnly suppressHydrationWarning>
+                  <SignInButton mode="modal">
+                    <button className="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">
+                      Sign In
+                    </button>
+                  </SignInButton>
+                  <SignUpButton mode="modal">
+                    <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium">
+                      Sign Up
+                    </button>
+                  </SignUpButton>
+                </ClientOnly>
               </div>
             )}
           </div>
@@ -99,7 +107,7 @@ export default function Navigation() {
               >
                 Browse Jobs
               </Link>
-              {!isClient || !isLoaded ? (
+              {showLoadingState ? (
                 <div className="animate-pulse bg-gray-200 h-8 w-20 rounded mx-3 my-2"></div>
               ) : user ? (
                 <>
@@ -118,27 +126,31 @@ export default function Navigation() {
                     </p>
                   </div>
                   <div className="px-3 py-2">
-                    <UserButton
-                      appearance={{
-                        elements: {
-                          avatarBox: "w-8 h-8"
-                        }
-                      }}
-                    />
+                    <ClientOnly suppressHydrationWarning>
+                      <UserButton
+                        appearance={{
+                          elements: {
+                            avatarBox: "w-8 h-8"
+                          }
+                        }}
+                      />
+                    </ClientOnly>
                   </div>
                 </>
               ) : (
                 <>
-                  <SignInButton mode="modal">
-                    <button className="text-gray-600 hover:text-gray-900 block px-3 py-2 rounded-md text-base font-medium w-full text-left">
-                      Sign In
-                    </button>
-                  </SignInButton>
-                  <SignUpButton mode="modal">
-                    <button className="bg-blue-600 hover:bg-blue-700 text-white block px-3 py-2 rounded-md text-base font-medium">
-                      Sign Up
-                    </button>
-                  </SignUpButton>
+                  <ClientOnly suppressHydrationWarning>
+                    <SignInButton mode="modal">
+                      <button className="text-gray-600 hover:text-gray-900 block px-3 py-2 rounded-md text-base font-medium w-full text-left">
+                        Sign In
+                      </button>
+                    </SignInButton>
+                    <SignUpButton mode="modal">
+                      <button className="bg-blue-600 hover:bg-blue-700 text-white block px-3 py-2 rounded-md text-base font-medium">
+                        Sign Up
+                      </button>
+                    </SignUpButton>
+                  </ClientOnly>
                 </>
               )}
             </div>

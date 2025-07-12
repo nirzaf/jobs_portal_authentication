@@ -4,6 +4,9 @@ import { useUser } from '@clerk/nextjs';
 import ProtectedRoute from '@/components/auth/ProtectedRoute';
 import Link from 'next/link';
 
+// Force dynamic rendering
+export const dynamic = 'force-dynamic';
+
 export default function JobSeekerDashboard() {
   const { user } = useUser();
 

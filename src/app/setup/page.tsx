@@ -5,6 +5,9 @@ import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import RoleSelector from '@/components/auth/RoleSelector';
 
+// Force dynamic rendering
+export const dynamic = 'force-dynamic';
+
 export default function SetupPage() {
   const { user, isLoaded } = useUser();
   const router = useRouter();

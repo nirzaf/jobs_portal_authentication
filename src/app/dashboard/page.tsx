@@ -4,6 +4,9 @@ import { useUser } from '@clerk/nextjs';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 
+// Force dynamic rendering
+export const dynamic = 'force-dynamic';
+
 export default function Dashboard() {
   const { user, isLoaded } = useUser();
   const router = useRouter();

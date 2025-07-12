@@ -1,6 +1,10 @@
 'use client';
 
 import { SignUp } from '@clerk/nextjs';
+import ClientOnly from '@/components/common/ClientOnly';
+
+// Force dynamic rendering
+export const dynamic = 'force-dynamic';
 
 export default function SignUpPage() {
   return (
@@ -16,18 +20,27 @@ export default function SignUpPage() {
 
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
         <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-          <SignUp
-            appearance={{
-              elements: {
-                formButtonPrimary:
-                  "bg-blue-600 hover:bg-blue-700 text-sm normal-case",
-                card: "shadow-none",
-                headerTitle: "hidden",
-                headerSubtitle: "hidden",
-              },
-            }}
-            redirectUrl="/setup"
-          />
+          <ClientOnly
+            fallback={
+              <div className="flex items-center justify-center py-12">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+              </div>
+            }
+            suppressHydrationWarning
+          >
+            <SignUp
+              appearance={{
+                elements: {
+                  formButtonPrimary:
+                    "bg-blue-600 hover:bg-blue-700 text-sm normal-case",
+                  card: "shadow-none",
+                  headerTitle: "hidden",
+                  headerSubtitle: "hidden",
+                },
+              }}
+              redirectUrl="/setup"
+            />
+          </ClientOnly>
         </div>
       </div>
     </div>
