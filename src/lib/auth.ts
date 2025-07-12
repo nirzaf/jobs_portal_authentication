@@ -1,9 +1,14 @@
 import { NextAuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
+import { MongoDBAdapter } from '@auth/mongodb-adapter';
+import clientPromise from './mongodb';
 import { UserService } from './userService';
 import { User } from '@/types/user';
 
 export const authOptions: NextAuthOptions = {
+  adapter: MongoDBAdapter(clientPromise, {
+    databaseName: 'auth', // Use the 'auth' database
+  }),
   providers: [
     CredentialsProvider({
       name: 'credentials',
