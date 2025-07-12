@@ -119,14 +119,14 @@ NEXTAUTH_URL=http://localhost:3000
 NEXTAUTH_SECRET=your-very-long-random-secret-key-change-in-production
 
 # MongoDB Configuration
-MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/auth
+MONGODB_URI=mongodb+srv://[USERNAME]:[PASSWORD]@[CLUSTER].mongodb.net/auth
 ```
 
 **🎓 Teaching Point**:
 - Environment variables keep sensitive data secure
 - `.env.local` is automatically ignored by Git
 - `NEXTAUTH_SECRET` should be 32+ characters in production
-- MongoDB URI format: `mongodb+srv://user:pass@cluster/database`
+- MongoDB URI format: `mongodb+srv://[USER]:[PASS]@[CLUSTER]/[DATABASE]`
 - **NEVER commit real credentials to version control**
 
 #### **Step 2.2: MongoDB Atlas Setup**
@@ -1154,7 +1154,7 @@ runTests();
 # Production Environment Variables
 NEXTAUTH_URL=https://your-domain.com
 NEXTAUTH_SECRET=very-long-random-production-secret
-MONGODB_URI=mongodb+srv://user:pass@cluster.mongodb.net/auth
+MONGODB_URI=mongodb+srv://[USER]:[PASS]@[CLUSTER].mongodb.net/auth
 ```
 
 ### **Security Checklist**

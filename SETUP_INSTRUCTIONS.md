@@ -72,7 +72,7 @@ NEXTAUTH_URL=http://localhost:3000
 NEXTAUTH_SECRET=generate-a-very-long-random-string-here
 
 # MongoDB Configuration
-MONGODB_URI=mongodb+srv://yourusername:yourpassword@yourcluster.mongodb.net/auth
+MONGODB_URI=mongodb+srv://[YOUR_USERNAME]:[YOUR_PASSWORD]@[YOUR_CLUSTER].mongodb.net/auth
 
 # Email Configuration (optional for now)
 EMAIL_SERVER_HOST=smtp.example.com

@@ -51,7 +51,7 @@ src/
 ```env
 NEXTAUTH_URL=http://localhost:3000
 NEXTAUTH_SECRET=your-secret-key-here
-MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/auth
+MONGODB_URI=mongodb+srv://[USERNAME]:[PASSWORD]@[CLUSTER].mongodb.net/auth
 ```
 
 ### **NextAuth Configuration (src/lib/auth.ts)**

@@ -28,10 +28,10 @@ This project uses sensitive environment variables that should **NEVER** be commi
 3. **Use placeholders in documentation**:
    ```env
    # ❌ DON'T DO THIS
-   MONGODB_URI=mongodb+srv://realuser:realpass@cluster.mongodb.net/
+   MONGODB_URI=mongodb+srv://[REAL_USER]:[REAL_PASS]@[CLUSTER].mongodb.net/
 
    # ✅ DO THIS INSTEAD
-   MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/database
+   MONGODB_URI=mongodb+srv://[USERNAME]:[PASSWORD]@[CLUSTER].mongodb.net/[DATABASE]
    ```
 
 ### 🛡️ **Security Best Practices:**
