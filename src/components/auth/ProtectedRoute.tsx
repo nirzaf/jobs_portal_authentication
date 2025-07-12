@@ -2,8 +2,7 @@
 
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import { useEffect, ReactNode } from 'react';
-import { useIsClient } from '@/hooks/useIsClient';
+import { useEffect, ReactNode, useState } from 'react';
 
 interface ProtectedRouteProps {
   children: ReactNode;
@@ -18,10 +17,14 @@ export default function ProtectedRoute({
 }: ProtectedRouteProps) {
   const { data: session, status } = useSession();
   const router = useRouter();
-  const isClient = useIsClient();
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    if (!isClient || status === 'loading') return; // Still loading or not on client
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!mounted || status === 'loading') return; // Still loading or not on client
 
     if (!session) {
       router.push(redirectTo);
@@ -36,9 +39,9 @@ export default function ProtectedRoute({
       router.push(dashboardUrl);
       return;
     }
-  }, [isClient, session, status, router, requiredRole, redirectTo]);
+  }, [mounted, session, status, router, requiredRole, redirectTo]);
 
-  if (!isClient || status === 'loading') {
+  if (!mounted || status === 'loading') {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-600"></div>

@@ -1,7 +1,6 @@
 'use client';
 
-import { ReactNode } from 'react';
-import { useIsClient } from '@/hooks/useIsClient';
+import { ReactNode, useState, useEffect } from 'react';
 
 interface ClientOnlyProps {
   children: ReactNode;
@@ -16,9 +15,13 @@ interface ClientOnlyProps {
  * @param fallback - Optional fallback content to show during server rendering
  */
 export default function ClientOnly({ children, fallback = null }: ClientOnlyProps) {
-  const isClient = useIsClient();
+  const [mounted, setMounted] = useState(false);
 
-  if (!isClient) {
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
     return <>{fallback}</>;
   }
 
