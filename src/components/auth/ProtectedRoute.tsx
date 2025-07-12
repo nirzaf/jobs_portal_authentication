@@ -47,6 +47,9 @@ export default function ProtectedRoute({
   }
 
   if (!session) {
+    console.log('No session');
+    //redirect to login page
+    router.push('/auth/signin');
     return null; // Will redirect
   }
 
