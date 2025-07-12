@@ -36,6 +36,7 @@ export class UserService {
     const result = await collection.insertOne(newUser);
 
     // Return user without password
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { password, ...userWithoutPassword } = newUser;
     return {
       ...userWithoutPassword,
@@ -70,6 +71,7 @@ export class UserService {
     }
 
     if (user) {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { password, ...userWithoutPassword } = user;
       return {
         ...userWithoutPassword,

@@ -54,10 +54,10 @@ export async function POST(request: NextRequest) {
       },
       { status: 201 }
     );
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Registration error:', error);
     
-    if (error.message === 'User already exists with this email') {
+    if (error instanceof Error && error.message === 'User already exists with this email') {
       return NextResponse.json(
         { error: 'User already exists with this email' },
         { status: 409 }

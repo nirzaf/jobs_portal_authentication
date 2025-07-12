@@ -15,13 +15,13 @@ export default function Jobs() {
               </svg>
               <h2 className="text-xl font-semibold text-gray-900 mb-2">Job Listings Coming Soon</h2>
               <p className="text-gray-600 mb-6">
-                We're working on bringing you the best job opportunities. 
+                We&apos;re working on bringing you the best job opportunities.
                 This feature will be available in Sprint 3 of our development plan.
               </p>
               <div className="bg-blue-50 border border-blue-200 rounded-md p-4">
                 <p className="text-blue-800 text-sm">
                   <strong>Sprint 3: Job Seeker Features - Job Discovery</strong><br />
-                  Coming in the next phase of development, you'll be able to:
+                  Coming in the next phase of development, you&apos;ll be able to:
                 </p>
                 <ul className="text-blue-700 text-sm mt-2 text-left list-disc list-inside">
                   <li>Browse all available job postings</li>

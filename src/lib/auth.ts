@@ -1,14 +1,15 @@
 import { NextAuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import { MongoDBAdapter } from '@auth/mongodb-adapter';
+import type { Adapter } from 'next-auth/adapters';
 import clientPromise from './mongodb';
 import { UserService } from './userService';
-import { User } from '@/types/user';
+
 
 export const authOptions: NextAuthOptions = {
   adapter: MongoDBAdapter(clientPromise, {
     databaseName: 'auth', // Use the 'auth' database
-  }),
+  }) as Adapter,
   providers: [
     CredentialsProvider({
       name: 'credentials',
@@ -38,7 +39,6 @@ export const authOptions: NextAuthOptions = {
           }
 
           // Return user without password
-          const { password, ...userWithoutPassword } = user;
           return {
             id: user._id || user.id || '',
             email: user.email,
@@ -58,7 +58,7 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        token.role = (user as any).role;
+        token.role = (user as { role: 'job_seeker' | 'employer' }).role;
         token.id = user.id;
       }
       return token;
