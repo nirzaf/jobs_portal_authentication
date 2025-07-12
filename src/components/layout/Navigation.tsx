@@ -3,10 +3,12 @@
 import { useSession, signOut } from 'next-auth/react';
 import Link from 'next/link';
 import { useState } from 'react';
+import { useIsClient } from '@/hooks/useIsClient';
 
 export default function Navigation() {
   const { data: session, status } = useSession();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const isClient = useIsClient();
 
   const handleSignOut = () => {
     signOut({ callbackUrl: '/' });
@@ -31,7 +33,7 @@ export default function Navigation() {
               Browse Jobs
             </Link>
 
-            {status === 'loading' ? (
+            {!isClient || status === 'loading' ? (
               <div className="animate-pulse bg-gray-200 h-8 w-20 rounded"></div>
             ) : session ? (
               <div className="flex items-center space-x-4">
@@ -102,7 +104,9 @@ export default function Navigation() {
               >
                 Browse Jobs
               </Link>
-              {session ? (
+              {!isClient || status === 'loading' ? (
+                <div className="animate-pulse bg-gray-200 h-8 w-20 rounded mx-3 my-2"></div>
+              ) : session ? (
                 <>
                   <Link
                     href="/dashboard"
