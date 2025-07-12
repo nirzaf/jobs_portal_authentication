@@ -1,20 +1,32 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Jobs Portal Authentication System
 
-## Getting Started
+A complete authentication system built with Next.js, NextAuth.js, and MongoDB Atlas, featuring role-based access control for Job Seekers and Employers.
 
-First, run the development server:
+## 🚀 Quick Start
+
+⚠️ **SECURITY FIRST**: Read `SECURITY_NOTICE.md` before starting!
 
 ```bash
+# 1. Install dependencies
+npm install
+
+# 2. Set up environment variables (NEVER commit real credentials!)
+cp .env.example .env.local
+# Edit .env.local with your MongoDB URI and secrets
+
+# 3. Start development server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+## 📚 Documentation
+
+- **`SETUP_INSTRUCTIONS.md`** - Complete setup guide
+- **`STEP_BY_STEP_IMPLEMENTATION_GUIDE.md`** - Detailed implementation tutorial
+- **`QUICK_REFERENCE.md`** - Quick lookup reference
+- **`SECURITY_NOTICE.md`** - ⚠️ **READ THIS FIRST** - Security guidelines
+- **`AUTHENTICATION_GUIDE.md`** - Technical overview
 
 Project Plan: Next.js Jobs Portal MVP
 This document outlines the step-by-step project plan for developing the Minimum Viable Product (MVP) of the Next.js Jobs Portal. The plan is broken down into six sprints, designed for a small development team (2-3 developers), covering the entire lifecycle from setup to deployment.
