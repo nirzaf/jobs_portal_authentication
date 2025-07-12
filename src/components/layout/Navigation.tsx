@@ -2,13 +2,16 @@
 
 import { useSession, signOut } from 'next-auth/react';
 import Link from 'next/link';
-import { useState } from 'react';
-import { useIsClient } from '@/hooks/useIsClient';
+import { useState, useEffect } from 'react';
 
 export default function Navigation() {
   const { data: session, status } = useSession();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const isClient = useIsClient();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const handleSignOut = () => {
     signOut({ callbackUrl: '/' });
@@ -33,7 +36,7 @@ export default function Navigation() {
               Browse Jobs
             </Link>
 
-            {!isClient || status === 'loading' ? (
+            {!mounted || status === 'loading' ? (
               <div className="animate-pulse bg-gray-200 h-8 w-20 rounded"></div>
             ) : session ? (
               <div className="flex items-center space-x-4">
@@ -104,7 +107,7 @@ export default function Navigation() {
               >
                 Browse Jobs
               </Link>
-              {!isClient || status === 'loading' ? (
+              {!mounted || status === 'loading' ? (
                 <div className="animate-pulse bg-gray-200 h-8 w-20 rounded mx-3 my-2"></div>
               ) : session ? (
                 <>
