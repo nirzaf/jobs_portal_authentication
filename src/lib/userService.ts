@@ -3,11 +3,24 @@ import clientPromise from './mongodb';
 import { User, UserRegistration } from '@/types/user';
 import { ObjectId } from 'mongodb';
 
+// MongoDB document type with ObjectId
+interface UserDocument {
+  _id?: ObjectId;
+  name?: string;
+  email: string;
+  password?: string;
+  role: 'job_seeker' | 'employer';
+  emailVerified?: Date | null;
+  image?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+
 export class UserService {
   private static async getCollection() {
     const client = await clientPromise;
     const db = client.db('auth'); // Using the 'auth' database as specified
-    return db.collection<User>('users'); // Using the 'users' collection as specified
+    return db.collection<UserDocument>('users'); // Using the 'users' collection as specified
   }
 
   static async createUser(userData: UserRegistration): Promise<User> {
@@ -23,7 +36,7 @@ export class UserService {
     const hashedPassword = await bcrypt.hash(userData.password, 12);
 
     // Create user object
-    const newUser: Omit<User, '_id'> = {
+    const newUser: Omit<UserDocument, '_id'> = {
       name: userData.name,
       email: userData.email,
       password: hashedPassword,
@@ -66,8 +79,8 @@ export class UserService {
       // Try to find by ObjectId first
       user = await collection.findOne({ _id: new ObjectId(id) });
     } catch {
-      // If ObjectId fails, try to find by string id
-      user = await collection.findOne({ _id: id });
+      // If ObjectId fails, try to find by string id (cast to unknown then ObjectId to bypass type checking)
+      user = await collection.findOne({ _id: id as unknown as ObjectId });
     }
 
     if (user) {
